@@ -1,0 +1,6 @@
+apiVersion: demo.apps.acme.com/v1alpha1
+kind: Kubebuilder
+metadata:
+  name: kubebuilder-sample
+spec:
+  # Add fields here
