@@ -1,0 +1,16 @@
+domain: apps.acme.com
+layout:
+- go.kubebuilder.io/v3
+projectName: kubebuilder-demo
+repo: github.com/scottd018/demos
+resources:
+- api:
+    crdVersion: v1
+    namespaced: true
+  controller: true
+  domain: apps.acme.com
+  group: demo
+  kind: Kubebuilder
+  path: github.com/scottd018/demos/api/v1alpha1
+  version: v1alpha1
+version: "3"

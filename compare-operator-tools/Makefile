@@ -14,7 +14,6 @@ define run_init
 	$(2) init \
 		--domain $(DOMAIN) \
 		--project-name $(3) \
-		--repo $(REPO) \
 		$(4)
 endef
 
@@ -32,8 +31,7 @@ define run_create
 	--group $(GROUP) \
 	--version $(VERSION) \
 	--kind $(3) \
-	--controller \
-	--resource
+	$(4)
 endef
 
 define run_create_ob
@@ -71,9 +69,21 @@ operator-sdk-clean:
 	$(call run_clean,$(OPERATOR_SDK_DIR))
 
 operator-sdk-init:
-	$(call run_init,$(OPERATOR_SDK_DIR),$(OPERATOR_SDK_CMD),$(OPERATOR_SDK_PROJECT))
+	$(call run_init,$(OPERATOR_SDK_DIR),$(OPERATOR_SDK_CMD),$(OPERATOR_SDK_PROJECT),--repo=$(REPO))
 
 operator-sdk-create:
+	$(call run_create,$(OPERATOR_SDK_DIR),$(OPERATOR_SDK_CMD),$(OPERATOR_SDK_KIND),--controller --resource)
+
+operator-sdk-init-ansible:
+	$(call run_init,$(OPERATOR_SDK_DIR),$(OPERATOR_SDK_CMD),$(OPERATOR_SDK_PROJECT),--plugins=ansible)
+
+operator-sdk-create-ansible:
+	$(call run_create,$(OPERATOR_SDK_DIR),$(OPERATOR_SDK_CMD),$(OPERATOR_SDK_KIND),--generate-role)
+
+operator-sdk-init-helm:
+	$(call run_init,$(OPERATOR_SDK_DIR),$(OPERATOR_SDK_CMD),$(OPERATOR_SDK_PROJECT),--plugins=helm)
+
+operator-sdk-create-helm:
 	$(call run_create,$(OPERATOR_SDK_DIR),$(OPERATOR_SDK_CMD),$(OPERATOR_SDK_KIND))
 
 #

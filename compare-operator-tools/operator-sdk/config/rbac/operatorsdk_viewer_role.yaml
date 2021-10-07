@@ -1,0 +1,20 @@
+# permissions for end users to view operatorsdks.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: operatorsdk-viewer-role
+rules:
+- apiGroups:
+  - demo.apps.acme.com
+  resources:
+  - operatorsdks
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - demo.apps.acme.com
+  resources:
+  - operatorsdks/status
+  verbs:
+  - get

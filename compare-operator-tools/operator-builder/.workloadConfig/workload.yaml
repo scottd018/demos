@@ -1,0 +1,14 @@
+name: webstore
+kind: StandaloneWorkload
+spec:
+  api:
+    domain: acme.com
+    group: apps
+    version: v1alpha1
+    kind: WebStore
+    clusterScoped: false
+  companionCliRootcmd:
+    name: webstorectl
+    description: Manage webstore stuff like a boss
+  resources:
+  - resources.yaml

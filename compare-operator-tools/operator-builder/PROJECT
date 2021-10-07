@@ -1,0 +1,21 @@
+domain: acme.com
+layout:
+- go.kubebuilder.io/v3
+multigroup: true
+plugins:
+  operatorBuilder:
+    cliRootCommandName: webstorectl
+    workloadConfigPath: .workloadConfig/workload.yaml
+projectName: operator-builder
+repo: github.com/scottd018/demos
+resources:
+- api:
+    crdVersion: v1
+    namespaced: true
+  controller: true
+  domain: acme.com
+  group: apps
+  kind: WebStore
+  path: github.com/scottd018/demos/apis/apps/v1alpha1
+  version: v1alpha1
+version: "3"

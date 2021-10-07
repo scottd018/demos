@@ -1,0 +1,6 @@
+# Use the 'create api' subcommand to add watches to this file.
+- group: demo.apps.acme.com
+  version: v1alpha1
+  kind: OperatorSDK
+  chart: helm-charts/operatorsdk
+#+kubebuilder:scaffold:watch

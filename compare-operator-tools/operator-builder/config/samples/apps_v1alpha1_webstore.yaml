@@ -1,0 +1,8 @@
+apiVersion: apps.acme.com/v1alpha1
+kind: WebStore
+metadata:
+  name: webstore-sample
+spec:
+  webstoreImage: "nginx:1.17"
+  serviceName: "webstore-svc"
+  webStoreReplicas: 2
