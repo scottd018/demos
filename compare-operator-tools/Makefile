@@ -4,7 +4,9 @@ GROUP ?= demo
 VERSION ?= v1alpha1
 
 define run_clean
-	rm -rf $(1)/*
+	rm -rf $(1)/*; \
+	cd $(1); \
+	rm -rf .dockerignore .gitignore
 endef
 
 define run_init
@@ -12,7 +14,16 @@ define run_init
 	$(2) init \
 		--domain $(DOMAIN) \
 		--project-name $(3) \
-		--repo $(REPO)
+		--repo $(REPO) \
+		$(4)
+endef
+
+define run_init_ob
+	cd $(1); \
+	$(2) init \
+		--repo $(REPO) \
+		--workload-config $(3) \
+		--skip-go-version-check
 endef
 
 define run_create
@@ -23,6 +34,14 @@ define run_create
 	--kind $(3) \
 	--controller \
 	--resource
+endef
+
+define run_create_ob
+	cd $(1); \
+	$(2) create api \
+	--controller \
+	--resource \
+	--workload-config $(3)
 endef
 
 #
@@ -58,17 +77,18 @@ operator-sdk-create:
 	$(call run_create,$(OPERATOR_SDK_DIR),$(OPERATOR_SDK_CMD),$(OPERATOR_SDK_KIND))
 
 #
-# OPERATOR SDK
+# OPERATOR BUILDER
 #
 OPERATOR_BUILDER_DIR ?= operator-builder
 OPERATOR_BUILDER_CMD ?= operator-builder
 OPERATOR_BUILDER_KIND ?= OperatorBuilder
 OPERATOR_BUILDER_PROJECT ?= operator-builder-demo
+OPERATOR_BUILDER_CONFIG ?= .workloadConfig/workload.yaml
 operator-builder-clean:
 	$(call run_clean,$(OPERATOR_BUILDER_DIR))
 
 operator-builder-init:
-	$(call run_init,$(OPERATOR_BUILDER_DIR),$(OPERATOR_BUILDER_CMD),$(OPERATOR_BUILDER_PROJECT))
+	$(call run_init_ob,$(OPERATOR_BUILDER_DIR),$(OPERATOR_BUILDER_CMD),$(OPERATOR_BUILDER_CONFIG))
 
 operator-builder-create:
-	$(call run_create,$(OPERATOR_BUILDER_DIR),$(OPERATOR_BUILDER_CMD),$(OPERATOR_BUILDER_KIND))
+	$(call run_create_ob,$(OPERATOR_BUILDER_DIR),$(OPERATOR_BUILDER_CMD),$(OPERATOR_BUILDER_CONFIG))
